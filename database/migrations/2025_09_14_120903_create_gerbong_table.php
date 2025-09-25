@@ -9,10 +9,12 @@ return new class extends Migration {
         Schema::create('gerbong', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_kereta');
-            $table->string('kode_gerbong', 20)->unique();
+            $table->string('kode_gerbong', 20);
             $table->integer('no_gerbong');
             $table->integer('jumlah_kursi');
-            $table->enum('kelas_gerbong', ['ekonomi', 'bisnis', 'eksekutif']);
+            $table->enum('kelas_gerbong', ['ekonomi', 'bisnis', 'eksekutif','luxury']);
+
+            $table->timestamps();
 
             $table->foreign('id_kereta')->references('id')->on('kereta')->onDelete('cascade');
         });

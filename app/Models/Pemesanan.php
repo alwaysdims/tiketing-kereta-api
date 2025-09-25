@@ -16,10 +16,11 @@ class Pemesanan extends Model
         'id_jadwal',
         'tanggal_pesan',
         'total_bayar',
+        'jumlah_penumpang', // Add this
         'status_bayar',
     ];
 
-    public function pelanggan()
+    public function penumpang()
     {
         return $this->belongsTo(Penumpang::class, 'id_penumpang');
     }

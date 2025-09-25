@@ -13,6 +13,7 @@ class Gerbong extends Model
 
     protected $fillable = [
         'id_kereta',
+        'kode_gerbong',
         'no_gerbong',
         'jumlah_kursi',
         'kelas_gerbong',

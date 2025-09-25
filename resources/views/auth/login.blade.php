@@ -13,28 +13,71 @@
         .login-input:focus {
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
         }
+        .toast-container {
+            top: 1.5rem;
+            right: 1.5rem;
+        }
+        /* Style untuk notifikasi saat muncul (state awal) */
+        .toast-enter {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+        /* Style untuk notifikasi saat sudah muncul (state akhir) */
+        .toast-enter-active {
+            opacity: 1;
+            transform: translateX(0);
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
+        /* Style untuk notifikasi saat menghilang (state akhir) */
+        .toast-exit {
+            opacity: 0;
+            transform: translateX(100%);
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
     </style>
 </head>
 <body class="bg-gray-200 flex items-center justify-center min-h-screen p-4">
-    <div class="card-bg p-8 rounded-xl shadow-2xl w-full max-w-sm transform transition-all duration-300 hover:scale-105">
+
+    <div id="toast-container" class="fixed z-50 flex flex-col items-end space-y-4 toast-container">
+        @if (session('success'))
+        <div id="success-toast" class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-lg shadow-lg max-w-sm toast-enter" role="alert">
+            <div class="flex items-center">
+                <div class="py-1"><i class="fas fa-check-circle text-green-500 mr-3"></i></div>
+                <div>
+                    <p class="font-bold">Berhasil!</p>
+                    <p class="text-sm">{{ session('success') }}</p>
+                </div>
+                <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-green-100 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex h-8 w-8 close-toast-button">
+                    <span class="sr-only">Close</span>
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        @endif
+
+        @if ($errors->any())
+        <div id="error-toast" class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-lg shadow-lg max-w-sm toast-enter" role="alert">
+            <div class="flex items-center">
+                <div class="py-1"><i class="fas fa-exclamation-triangle text-red-500 mr-3"></i></div>
+                <div>
+                    <p class="font-bold">Oops!</p>
+                    <p class="text-sm">Ada masalah dengan input Anda.</p>
+                </div>
+                <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-red-100 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex h-8 w-8 close-toast-button">
+                    <span class="sr-only">Close</span>
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        @endif
+    </div>
+
+    <div class="card-bg p-8 rounded-xl shadow-2xl w-full max-w-sm transform transition-all duration-300 ">
         <div class="flex flex-col items-center">
             <i class="fas fa-train text-5xl text-blue-600 mb-4 animate-bounce"></i>
             <h1 class="text-3xl font-bold mb-2 text-center text-gray-800">Selamat Datang!</h1>
             <p class="text-gray-600 mb-6 text-center">Silakan masuk untuk melanjutkan</p>
         </div>
-
-        @if ($errors->any())
-            <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                <strong class="font-bold">Oops!</strong>
-                <span class="block sm:inline"> Ada masalah dengan input Anda.</span>
-                <ul class="mt-2 list-disc list-inside">
-                    @foreach ($errors->all() as $error)
-                        <li class="text-sm">{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
         <form id="loginForm" method="POST" action="{{ route('login') }}" class="space-y-6">
             @csrf
             <div>
@@ -47,6 +90,7 @@
                         type="text"
                         id="login"
                         name="login"
+                        placeholder="Email atau Username"
                         value="{{ old('login') }}"
                         required
                         autofocus
@@ -63,6 +107,7 @@
                     </div>
                     <input
                         type="password"
+                        placeholder="..."
                         id="password"
                         name="password"
                         required
@@ -84,6 +129,63 @@
         <p class="mt-6 text-center text-gray-600">
             Belum punya akun? <a href="{{ route('register') }}" class="text-blue-600 font-semibold hover:underline">Daftar sekarang</a>
         </p>
+
+        <a href="/" class="mt-4 block w-full text-center bg-gray-200 text-gray-700 font-bold py-2.5 rounded-lg hover:bg-gray-300 transition duration-300 shadow-md transform hover:scale-100">
+            <i class="fas fa-arrow-left mr-2"></i> Kembali ke Beranda
+        </a>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const successToast = document.getElementById('success-toast');
+            const errorToast = document.getElementById('error-toast');
+
+            // Fungsi untuk memulai transisi masuk
+            const showToast = (toast) => {
+                // Hapus class 'toast-enter' dan tambahkan 'toast-enter-active' setelah jeda singkat
+                setTimeout(() => {
+                    toast.classList.remove('toast-enter');
+                    toast.classList.add('toast-enter-active');
+                }, 100); // Jeda 100ms agar transisi berjalan
+            };
+
+            // Fungsi untuk memulai transisi keluar dan menghapus elemen
+            const hideToast = (toast) => {
+                toast.classList.remove('toast-enter-active');
+                toast.classList.add('toast-exit');
+                setTimeout(() => {
+                    toast.remove();
+                }, 500); // Sesuai dengan durasi transisi
+            };
+
+            if (successToast) {
+                showToast(successToast);
+                setTimeout(() => {
+                    hideToast(successToast);
+                }, 5000);
+
+                const closeButton = successToast.querySelector('.close-toast-button');
+                if (closeButton) {
+                    closeButton.addEventListener('click', () => {
+                        hideToast(successToast);
+                    });
+                }
+            }
+
+            if (errorToast) {
+                showToast(errorToast);
+                setTimeout(() => {
+                    hideToast(errorToast);
+                }, 7000);
+
+                const closeButton = errorToast.querySelector('.close-toast-button');
+                if (closeButton) {
+                    closeButton.addEventListener('click', () => {
+                        hideToast(errorToast);
+                    });
+                }
+            }
+        });
+    </script>
 </body>
 </html>

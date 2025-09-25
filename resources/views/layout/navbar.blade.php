@@ -10,54 +10,58 @@
             </div>
 
             <div class="hidden md:flex items-center space-x-4">
-                <a href="{{ '/' }}" class="px-3 py-2 rounded-md text-sm font-medium transition text-gray-700 hover:bg-gray-100 hover:text-blue-600" id="nav-beranda">
+                <a href="{{ route('beranda.index') }}" class="px-3 py-2 rounded-md text-sm font-medium transition text-gray-700 hover:bg-gray-100 hover:text-blue-600" id="nav-beranda">
                     Beranda
                 </a>
-                <a href="{{ '/pesantiket' }}" class="px-3 py-2 rounded-md text-sm font-medium transition text-gray-700 hover:bg-gray-100 hover:text-blue-600" id="nav-pesan-tiket">
+                <a href="{{ route('pesantiket.index') }}" class="px-3 py-2 rounded-md text-sm font-medium transition text-gray-700 hover:bg-gray-100 hover:text-blue-600" id="nav-pesan-tiket">
                     Pesan Tiket
                 </a>
-                <a href="{{ '/bantuan' }}" class="px-3 py-2 rounded-md text-sm font-medium transition text-gray-700 hover:bg-gray-100 hover:text-blue-600">
+                <a href="{{ route('bantuan') }}" class="px-3 py-2 rounded-md text-sm font-medium transition text-gray-700 hover:bg-gray-100 hover:text-blue-600">
                     Bantuan
                 </a>
             </div>
 
             <div class="hidden md:flex items-center relative" id="profileDropdownWrapper">
-                <button id="profileDropdownButton"
-                    class="flex items-center space-x-2 text-sm rounded-full focus:outline-none" aria-haspopup="true"
-                    aria-expanded="false" type="button">
-                    <div class="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center">
-                        <i class="fas fa-user text-white text-sm"></i>
+                @auth
+                    <button id="profileDropdownButton" class="flex items-center space-x-2 text-sm rounded-full focus:outline-none" aria-haspopup="true" aria-expanded="false" type="button">
+                        <div class="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center">
+                            <i class="fas fa-user text-white text-sm"></i>
+                        </div>
+                        <div class="text-left">
+                            <p class="text-sm font-medium text-gray-700">{{ Auth::user()->username ?? 'User' }}</p>
+                            <p class="text-xs text-gray-500 capitalize">{{ Auth::user()->role ?? 'N/A' }}</p>
+                        </div>
+                        <i class="fas fa-chevron-down text-gray-400 text-xs"></i>
+                    </button>
+                    <div id="profileDropdownMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-50 dropdown-transition" role="menu" aria-orientation="vertical" aria-labelledby="profileDropdownButton" style="top: 100%;">
+                        <a href="#" class="block px-4 py-2 text-sm transition text-gray-700 hover:bg-gray-100" role="menuitem">
+                            <i class="fas fa-user-circle mr-2"></i> Profil
+                        </a>
+                        <a href="#" class="block px-4 py-2 text-sm transition text-gray-700 hover:bg-gray-100" role="menuitem">
+                            <i class="fas fa-ticket-alt mr-2"></i> Riwayat Pesanan
+                        </a>
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="block w-full text-left px-4 py-2 text-sm transition text-gray-700 hover:bg-gray-100" role="menuitem">
+                                <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                            </button>
+                        </form>
                     </div>
-                    <div class="text-left">
-                        <p class="text-sm font-medium text-gray-700">Penumpang</p>
-                        <p class="text-xs text-gray-500">Guest</p>
-                    </div>
-                    <i class="fas fa-chevron-down text-gray-400 text-xs"></i>
-                </button>
-
-                <div id="profileDropdownMenu"
-                    class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-50 dropdown-transition"
-                    role="menu" aria-orientation="vertical" aria-labelledby="profileDropdownButton" style="top: 100%;">
-                    <a href="#"
-                        class="block px-4 py-2 text-sm transition text-gray-700 hover:bg-gray-100"
-                        role="menuitem">
-                        <i class="fas fa-user-circle mr-2"></i> Profil
+                @else
+                    <a href="{{ route('login') }}" class="flex items-center space-x-2 text-sm rounded-full focus:outline-none">
+                        <div class="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center">
+                            <i class="fas fa-user text-white text-sm"></i>
+                        </div>
+                        <div class="text-left">
+                            <p class="text-sm font-medium text-gray-700">Guest</p>
+                            <p class="text-xs text-gray-500">Belum login</p>
+                        </div>
                     </a>
-                    <a href="#" class="block px-4 py-2 text-sm transition text-gray-700 hover:bg-gray-100"
-                        role="menuitem">
-                        <i class="fas fa-ticket-alt mr-2"></i> Riwayat Pesanan
-                    </a>
-                    <a href="{{ 'auth/login' }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        role="menuitem">
-                        <i class="fas fa-sign-in-alt mr-2"></i> Login
-                    </a>
-                </div>
+                @endauth
             </div>
 
             <div class="md:hidden flex items-center">
-                <button id="mobileMenuButton"
-                    class="p-2 rounded-md text-gray-700 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-600"
-                    aria-label="Open main menu" aria-expanded="false" type="button">
+                <button id="mobileMenuButton" class="p-2 rounded-md text-gray-700 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-600" aria-label="Open main menu" aria-expanded="false" type="button">
                     <i class="fas fa-bars text-xl"></i>
                 </button>
             </div>
@@ -68,37 +72,92 @@
         <div class="fixed right-0 top-0 h-full w-64 bg-white shadow-lg overflow-y-auto">
             <div class="p-4 border-b flex items-center justify-between">
                 <span class="font-bold text-lg">Menu</span>
-                <button id="closeMobileMenu" class="p-2 text-gray-700 hover:text-blue-600 focus:outline-none"
-                    aria-label="Close main menu" type="button">
+                <button id="closeMobileMenu" class="p-2 text-gray-700 hover:text-blue-600 focus:outline-none" aria-label="Close main menu" type="button">
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
             <nav class="p-4 space-y-2" aria-label="Mobile main menu">
-                <a href="#beranda" class="block py-2 px-4 rounded transition text-gray-700 hover:bg-gray-100">
+                <a href="{{ route('beranda.index') }}" class="block py-2 px-4 rounded transition text-gray-700 hover:bg-gray-100">
                     Beranda
                 </a>
-                <a href="#pesan-tiket" class="block py-2 px-4 rounded transition text-gray-700 hover:bg-gray-100">
+                <a href="{{ route('pesantiket.index') }}" class="block py-2 px-4 rounded transition text-gray-700 hover:bg-gray-100">
                     Pesan Tiket
                 </a>
-                <a href="#bantuan" class="block py-2 px-4 rounded transition text-gray-700 hover:bg-gray-100">
+                <a href="{{ route('bantuan') }}" class="block py-2 px-4 rounded transition text-gray-700 hover:bg-gray-100">
                     Bantuan
                 </a>
                 <div class="border-t mt-4 pt-4">
-                     <div class="px-4 pb-3 border-b mb-3">
-                        <p class="text-gray-800 font-semibold">Penumpang</p>
-                        <p class="text-gray-500 text-sm">Guest</p>
-                    </div>
-                    <a href="#" class="block py-2 px-4 rounded transition flex items-center text-gray-700 hover:bg-gray-100">
-                         <i class="fas fa-user-circle mr-2"></i> Profil
-                    </a>
-                    <a href="#" class="block py-2 px-4 rounded transition flex items-center text-gray-700 hover:bg-gray-100">
-                        <i class="fas fa-ticket-alt mr-2"></i> Riwayat Pesanan
-                    </a>
-                    <a href="{{ 'auth/login' }}" class="block py-2 px-4 rounded transition flex items-center text-gray-700 hover:bg-gray-100">
-                        <i class="fas fa-sign-in-alt mr-2"></i> Login
-                    </a>
+                    @auth
+                        <div class="px-4 pb-3 border-b mb-3">
+                            <p class="text-gray-800 font-semibold">{{ Auth::user()->username ?? 'User' }}</p>
+                            <p class="text-gray-500 text-sm capitalize">{{ Auth::user()->role ?? 'N/A' }}</p>
+                        </div>
+                        <a href="#" class="block py-2 px-4 rounded transition flex items-center text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-user-circle mr-2"></i> Profil
+                        </a>
+                        <a href="#" class="block py-2 px-4 rounded transition flex items-center text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-ticket-alt mr-2"></i> Riwayat Pesanan
+                        </a>
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="block py-2 px-4 rounded transition flex items-center text-gray-700 hover:bg-gray-100 w-full text-left">
+                                <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                            </button>
+                        </form>
+                    @else
+                        <div class="px-4 pb-3 border-b mb-3">
+                            <p class="text-gray-800 font-semibold">Guest</p>
+                            <p class="text-gray-500 text-sm">Belum login</p>
+                        </div>
+                        <a href="{{ route('login') }}" class="block py-2 px-4 rounded transition flex items-center text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-sign-in-alt mr-2"></i> Login
+                        </a>
+                    @endauth
                 </div>
             </nav>
         </div>
     </div>
 </nav>
+{{--
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const profileButton = document.getElementById('profileDropdownButton');
+        const profileMenu = document.getElementById('profileDropdownMenu');
+        const mobileMenuButton = document.getElementById('mobileMenuButton');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const closeMobileMenu = document.getElementById('closeMobileMenu');
+
+        if (profileButton && profileMenu) {
+            profileButton.addEventListener('click', function () {
+                profileMenu.classList.toggle('hidden');
+                profileButton.setAttribute('aria-expanded', !profileMenu.classList.contains('hidden'));
+            });
+
+            document.addEventListener('click', function (event) {
+                if (!profileButton.contains(event.target) && !profileMenu.contains(event.target)) {
+                    profileMenu.classList.add('hidden');
+                    profileButton.setAttribute('aria-expanded', 'false');
+                }
+            });
+        }
+
+        if (mobileMenuButton && mobileMenu && closeMobileMenu) {
+            mobileMenuButton.addEventListener('click', function () {
+                mobileMenu.classList.toggle('hidden');
+                mobileMenuButton.setAttribute('aria-expanded', !mobileMenu.classList.contains('hidden'));
+            });
+
+            closeMobileMenu.addEventListener('click', function () {
+                mobileMenu.classList.add('hidden');
+                mobileMenuButton.setAttribute('aria-expanded', 'false');
+            });
+
+            document.addEventListener('click', function (event) {
+                if (!mobileMenu.contains(event.target) && !mobileMenuButton.contains(event.target)) {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenuButton.setAttribute('aria-expanded', 'false');
+                }
+            });
+        }
+    });
+</script> --}}

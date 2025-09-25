@@ -33,4 +33,38 @@
     </div>
 </section>
 
+<section id="jadwal-hari-ini" class="bg-white rounded-lg shadow-lg p-6 md:p-12 mb-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 text-center">Jadwal Kereta Hari Ini</h2>
+    @if($jadwal->isEmpty())
+        <p class="text-gray-600 text-center">Tidak ada jadwal kereta untuk hari ini.</p>
+    @else
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-blue-100">
+                        <th class="p-4 font-semibold text-gray-800">Nama Kereta</th>
+                        <th class="p-4 font-semibold text-gray-800">Stasiun Asal</th>
+                        <th class="p-4 font-semibold text-gray-800">Stasiun Tujuan</th>
+                        <th class="p-4 font-semibold text-gray-800">Jam Keberangkatan</th>
+                        <th class="p-4 font-semibold text-gray-800">Jam Kedatangan</th>
+                        <th class="p-4 font-semibold text-gray-800">Harga</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($jadwal as $item)
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="p-4">{{ $item->kereta->nama_kereta ?? 'N/A' }}</td>
+                            <td class="p-4">{{ $item->stasiunAsal->nama_stasiun ?? 'N/A' }}</td>
+                            <td class="p-4">{{ $item->stasiunTujuan->nama_stasiun ?? 'N/A' }}</td>
+                            <td class="p-4">{{ \Carbon\Carbon::parse($item->jam_keberangkatan)->format('H:i') }}</td>
+                            <td class="p-4">{{ \Carbon\Carbon::parse($item->jam_kedatangan)->format('H:i') }}</td>
+                            <td class="p-4">Rp {{ number_format($item->harga, 0, ',', '.') }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    @endif
+</section>
+
 @endsection

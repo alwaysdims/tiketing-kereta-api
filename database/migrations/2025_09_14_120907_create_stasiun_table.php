@@ -11,6 +11,8 @@ return new class extends Migration {
             $table->string('kode_stasiun', 20)->unique();
             $table->string('nama_stasiun', 100);
             $table->string('kota', 100);
+
+            $table->timestamps();
         });
     }
 

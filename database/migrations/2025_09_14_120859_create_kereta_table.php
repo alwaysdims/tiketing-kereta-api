@@ -10,6 +10,8 @@ return new class extends Migration {
             $table->id();
             $table->string('kode_kereta', 20)->unique();
             $table->string('nama_kereta', 100);
+
+            $table->timestamps();
         });
     }
 

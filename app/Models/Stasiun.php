@@ -12,6 +12,7 @@ class Stasiun extends Model
     protected $table = 'stasiun';
 
     protected $fillable = [
+        'kode_stasiun',
         'nama_stasiun',
         'kota',
     ];

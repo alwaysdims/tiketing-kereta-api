@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class JadwalKereta extends Model
@@ -12,7 +13,7 @@ class JadwalKereta extends Model
     protected $table = 'jadwal_kereta';
 
     protected $fillable = [
-        'id_gerbong',
+        'id_kereta', // Changed from id_gerbong to id_kereta
         'id_stasiun_asal',
         'id_stasiun_tujuan',
         'jam_keberangkatan',
@@ -20,9 +21,18 @@ class JadwalKereta extends Model
         'harga',
     ];
 
-    public function gerbong()
+    protected $dates = ['jam_keberangkatan', 'jam_kedatangan'];
+
+    // Accessor for is_expired
+    public function getIsExpiredAttribute()
     {
-        return $this->belongsTo(Gerbong::class, 'id_gerbong');
+        return Carbon::now()->greaterThan($this->jam_keberangkatan);
+    }
+
+    // Optional: Scope to filter out expired schedules
+    public function scopeNotExpired($query)
+    {
+        return $query->where('jam_keberangkatan', '>=', Carbon::now());
     }
 
     public function stasiunAsal()
@@ -38,5 +48,10 @@ class JadwalKereta extends Model
     public function pemesanan()
     {
         return $this->hasMany(Pemesanan::class, 'id_jadwal');
+    }
+
+    public function kereta()
+    {
+        return $this->belongsTo(Kereta::class, 'id_kereta'); // Renamed from jadwal() to kereta()
     }
 }

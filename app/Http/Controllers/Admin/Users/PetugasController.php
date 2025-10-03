@@ -16,7 +16,7 @@ class PetugasController extends Controller
      */
     public function index()
     {
-        $petugas = User::where('role', 'petugas')->with('petugas')->paginate(10);
+        $petugas = User::where('role', 'petugas')->with('petugas')->paginate(1000);
         return view('admin_kai.users.petugas', compact('petugas'));
     }
 

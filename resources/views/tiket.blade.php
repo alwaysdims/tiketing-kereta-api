@@ -68,19 +68,20 @@
 
                 <div class="text-center print:text-xs">
                     <p class="text-xs text-gray-500">Cetak atau simpan tiket ini untuk check-in. Berlaku hingga kedatangan kereta.</p>
-                    <button onclick="window.print()" class="mt-2 bg-blue-600 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-700">
-                        Cetak Tiket Ini
-                    </button>
+                    <a href="{{ route('pesantiket.cetak', $pemesanan->id) }}"
+                       class="mt-2 bg-blue-600 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-700 inline-block no-print">
+                        Download & Cetak PDF
+                    </a>
                 </div>
             </div>
         @endforeach
     </div>
 
-    <div class="text-center mt-8">
+    {{-- <div class="text-center mt-8">
         <a href="{{ route('pesantiket.index') }}" class="bg-gray-500 text-white px-6 py-3 rounded-md hover:bg-gray-600">
             Kembali ke Daftar Jadwal
         </a>
-    </div>
+    </div> --}}
 </div>
 
 <style>

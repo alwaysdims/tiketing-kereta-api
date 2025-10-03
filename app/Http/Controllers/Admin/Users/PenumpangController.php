@@ -18,7 +18,7 @@ class PenumpangController extends Controller
     {
         $penumpangs = User::where('role', 'penumpang')
             ->with('penumpang')
-            ->paginate(10); // Adjust pagination as needed
+            ->paginate(1000); // Adjust pagination as needed
 
         return view('admin_kai.users.penumpang', compact('penumpangs'));
     }
@@ -98,7 +98,7 @@ class PenumpangController extends Controller
             'email' => ['required', 'string', 'email', 'max:100', Rule::unique('users')->ignore($user->id)],
             'nik' => ['required', 'string', 'max:20', Rule::unique('users')->ignore($user->id)],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
-            'jenis_kelamin' => 'required', 
+            'jenis_kelamin' => 'required',
             'nama_penumpang' => ['nullable', 'string', 'max:100'],
             'tanggal_lahir' => ['nullable', 'date'],
             'no_hp' => ['nullable', 'string', 'max:20'],

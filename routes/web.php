@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\GerbongController;
 use App\Http\Controllers\Admin\JadwalKeretaController;
 use App\Http\Controllers\Admin\KeretaController;
+use App\Http\Controllers\Admin\LaporanController;
 use App\Http\Controllers\Admin\StasiunController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -97,6 +98,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::resource('users/penumpang', PenumpangController::class)->names('admin.users.penumpang');
     Route::resource('/jadwal-kereta', JadwalKeretaController::class)->names('admin.jadwal');
     Route::resource('/gerbong', GerbongController::class)->names('admin.gerbong');
+    Route::resource('/tiket', LaporanController::class)->names('admin.tiket');
     Route::resource('/stasiun', StasiunController::class)->names('admin.stasiun');
 
     Route::get('/pengaturan', function () {
@@ -139,6 +141,7 @@ Route::post('/pesantiket/search', [PesanTiketController::class, 'search'])->name
 Route::get('/pesantiket/transaksi/{id}', [PesanTiketController::class, 'showTransaction'])->name('pesantiket.transaction');
 Route::post('/pesantiket/store', [PesanTiketController::class, 'store'])->middleware('auth')->name('pesantiket.store');
 Route::get('/pesantiket/pembayaran/{id}', [PesanTiketController::class, 'showPayment'])->middleware('auth')->name('pesantiket.payment');
+Route::get('/pesantiket/cetak/{id}', [PesanTiketController::class, 'cetakTiket'])->middleware('auth')->name('pesantiket.cetak');
 Route::post('/pesantiket/pembayaran/proses', [PesanTiketController::class, 'processPayment'])->middleware('auth')->name('pesantiket.payment.process');
 /*
 |--------------------------------------------------------------------------

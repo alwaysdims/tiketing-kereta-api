@@ -17,6 +17,7 @@ class PemesananDetail extends Model
         'no_kursi',
         'nama_penumpang',
         'kode_barcode',
+        'status_tiket',
     ];
 
     public function pemesanan()

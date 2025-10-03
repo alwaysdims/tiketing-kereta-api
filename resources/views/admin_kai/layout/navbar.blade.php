@@ -58,11 +58,18 @@
                    id="nav-jadwal">
                     Jadwal Kereta
                 </a>
+
                 <a href="{{ route('admin.gerbong.index') }}"
                    class="px-3 py-2 rounded-md text-sm font-medium transition
                    {{ request()->routeIs('admin.gerbong.index') ? 'bg-blue-600 text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-blue-600' }}"
                    id="nav-gerbong">
                     Gerbong
+                </a>
+                <a href="{{ route('admin.tiket.index') }}"
+                   class="px-3 py-2 rounded-md text-sm font-medium transition
+                   {{ request()->routeIs('admin.tiket.index') ? 'bg-blue-600 text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-blue-600' }}"
+                   id="nav-gerbong">
+                    Laporan Tiket
                 </a>
                 <a href="{{ route('admin.stasiun.index') }}"
                    class="px-3 py-2 rounded-md text-sm font-medium transition
@@ -173,6 +180,11 @@
                    class="block py-2 px-4 rounded transition
                    {{ request()->routeIs('admin.jadwal.index') ? 'bg-blue-600 text-white' : 'text-gray-700 hover:bg-gray-100' }}">
                     Jadwal Kereta
+                </a>
+                <a href="{{ route('admin.tiket.index') }}"
+                   class="block py-2 px-4 rounded transition
+                   {{ request()->routeIs('admin.tiket.index') ? 'bg-blue-600 text-white' : 'text-gray-700 hover:bg-gray-100' }}">
+                    Tiket
                 </a>
                 <a href="{{ route('admin.gerbong.index') }}"
                    class="block py-2 px-4 rounded transition

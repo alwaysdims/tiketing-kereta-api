@@ -12,7 +12,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('id_jadwal');
             $table->dateTime('tanggal_pesan');
             $table->decimal('total_bayar', 12, 2);
-            $table->enum('status_bayar', ['pending', 'lunas', 'batal']);
+            $table->enum('status_bayar', ['pending', 'lunas','sudah bayar', 'batal']);
             $table->timestamps();
 
             $table->foreign('id_penumpang')->references('id')->on('penumpang')->onDelete('cascade');

@@ -18,6 +18,7 @@ class Pemesanan extends Model
         'total_bayar',
         'jumlah_penumpang', // Add this
         'status_bayar',
+        'bukti_pembayaran'
     ];
 
     public function penumpang()

@@ -12,7 +12,7 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $admins = AdminKai::with('user')->paginate(10);
+        $admins = AdminKai::with('user')->paginate(1000);
         return view('admin_kai.users.admin', compact('admins'));
     }
 

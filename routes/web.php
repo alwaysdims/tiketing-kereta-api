@@ -98,7 +98,8 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::resource('users/penumpang', PenumpangController::class)->names('admin.users.penumpang');
     Route::resource('/jadwal-kereta', JadwalKeretaController::class)->names('admin.jadwal');
     Route::resource('/gerbong', GerbongController::class)->names('admin.gerbong');
-    Route::resource('/tiket', LaporanController::class)->names('admin.tiket');
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('admin.laporan.index');
+    Route::get('/laporan/pdf', [App\Http\Controllers\Admin\LaporanController::class, 'pdf'])->name('admin.laporan.pdf');
     Route::resource('/stasiun', StasiunController::class)->names('admin.stasiun');
 
     Route::get('/pengaturan', function () {

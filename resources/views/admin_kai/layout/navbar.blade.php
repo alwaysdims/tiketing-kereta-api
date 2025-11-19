@@ -65,9 +65,9 @@
                    id="nav-gerbong">
                     Gerbong
                 </a>
-                <a href="{{ route('admin.tiket.index') }}"
+                <a href="{{ route('admin.laporan.index') }}"
                    class="px-3 py-2 rounded-md text-sm font-medium transition
-                   {{ request()->routeIs('admin.tiket.index') ? 'bg-blue-600 text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-blue-600' }}"
+                   {{ request()->routeIs('admin.laporan.index') ? 'bg-blue-600 text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-blue-600' }}"
                    id="nav-gerbong">
                     Laporan Tiket
                 </a>
@@ -181,9 +181,9 @@
                    {{ request()->routeIs('admin.jadwal.index') ? 'bg-blue-600 text-white' : 'text-gray-700 hover:bg-gray-100' }}">
                     Jadwal Kereta
                 </a>
-                <a href="{{ route('admin.tiket.index') }}"
+                <a href="{{ route('admin.laporan.index') }}"
                    class="block py-2 px-4 rounded transition
-                   {{ request()->routeIs('admin.tiket.index') ? 'bg-blue-600 text-white' : 'text-gray-700 hover:bg-gray-100' }}">
+                   {{ request()->routeIs('admin.laporan.index') ? 'bg-blue-600 text-white' : 'text-gray-700 hover:bg-gray-100' }}">
                     Tiket
                 </a>
                 <a href="{{ route('admin.gerbong.index') }}"
